@@ -18,7 +18,7 @@ const Main = () => {
                 onPress={(campsiteId) => setSelectedCampsiteId(campsiteId)}
             />
             <CampsiteInfoScreen
-                campsites={
+                campsite={
                     campsites.filter(
                         (campsite) => campsite.id === selectedCampsiteId
                     )[0]

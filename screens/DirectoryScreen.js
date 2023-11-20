@@ -1,6 +1,6 @@
 import { FlatList } from 'react-native'
 import { Avatar, ListItem } from 'react-native-elements'
-
+//take CAMPSITE prop passed in form Main, rename item to campsite pass to const, return a list of contents
 const DirectoryScreen = (props) => {
     const renderDirectoryItem = ({ item: campsite }) => {
         return (

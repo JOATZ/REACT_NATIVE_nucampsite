@@ -1,11 +1,18 @@
 import { FlatList } from 'react-native'
+import { useState } from 'react'
+import { CAMPSITES } from '../shared/campsites'
 import { Avatar, ListItem } from 'react-native-elements'
-//take CAMPSITE prop passed in form Main, rename item to campsite pass to const, return a list of contents
-//ListItem has prop named onPress, this handles callback to onPress from MainComponent
-const DirectoryScreen = (props) => {
+
+const DirectoryScreen = ({ navigation }) => {
+    const [campsites, setCampsites] = useState(CAMPSITES)
+
     const renderDirectoryItem = ({ item: campsite }) => {
         return (
-            <ListItem onPress={() => props.onPress(campsite.id)}>
+            <ListItem
+                onPress={() =>
+                    navigation.navigate('CampsiteInfo', { campsite })
+                }
+            >
                 <Avatar source={campsite.image} rounded />
                 <ListItem.Content>
                     <ListItem.Title>{campsite.name}</ListItem.Title>
@@ -18,7 +25,7 @@ const DirectoryScreen = (props) => {
     }
     return (
         <FlatList
-            data={props.campsites}
+            data={campsites}
             renderItem={renderDirectoryItem}
             keyExtractor={(item) => item.id.toString()}
         />

@@ -1,7 +1,6 @@
-import { FlatList } from 'react-native'
-import { Avatar, ListItem } from 'react-native-elements'
-//take CAMPSITE prop passed in form Main, rename item to campsite pass to const, return a list of contents
-//ListItem has prop named onPress, this handles callback to onPress from MainComponent
+import { FlatList } from 'react-native';
+import { Avatar, ListItem } from 'react-native-elements';
+
 const DirectoryScreen = (props) => {
     const renderDirectoryItem = ({ item: campsite }) => {
         return (
@@ -14,14 +13,15 @@ const DirectoryScreen = (props) => {
                     </ListItem.Subtitle>
                 </ListItem.Content>
             </ListItem>
-        )
-    }
+        );
+    };
     return (
         <FlatList
             data={props.campsites}
             renderItem={renderDirectoryItem}
             keyExtractor={(item) => item.id.toString()}
         />
-    )
-}
-export default DirectoryScreen
+    );
+};
+
+export default DirectoryScreen;

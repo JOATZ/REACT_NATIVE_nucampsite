@@ -36,7 +36,7 @@ const RenderCampsite = (props) => {
             </Card>
         )
     }
-    return <View /> //if no campsite render empty view
+    return <View />
 }
 
 const styles = StyleSheet.create({

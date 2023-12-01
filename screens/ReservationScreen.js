@@ -36,7 +36,7 @@ const ReservationScreen = () => {
     return (
         <ScrollView>
             <View style={styles.formRow}>
-                <Text style={styles.formLabel}>Number of Campers:</Text>a
+                <Text style={styles.formLabel}>Number of Campers:</Text>
                 <Picker
                     style={styles.formItem}
                     selectedValue={campers}

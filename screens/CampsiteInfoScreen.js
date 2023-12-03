@@ -1,12 +1,14 @@
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { FlatList, StyleSheet, Text, View, Button, Modal } from 'react-native'
 import RenderCampsite from '../features/campsites/RenderCampsite'
 import { Rating, Input } from 'react-native-elements'
+import { postComment } from '../features/comments/commentsSlice'
 
 const CampsiteInfoScreen = ({ route }) => {
     const { campsite } = route.params
     const comments = useSelector((state) => state.comments)
+    const dispatch = useDispatch()
 
     const [favorite, setFavorite] = useState(false)
     const [showModal, setShowModal] = useState(false)
@@ -21,7 +23,7 @@ const CampsiteInfoScreen = ({ route }) => {
             text,
             campsiteId: campsite.id
         }
-        console.log(newComment)
+        dispatch(postComment(newComment))
         setShowModal(!showModal)
     }
 

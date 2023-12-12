@@ -139,10 +139,8 @@ const RegisterTab = () => {
     }
 
     const getImageFromCamera = async () => {
-        //check permissions
-        const cameraPermission =
-            await ImagePicker.requestCameraPermissionsAsync()
-        //if granted then
+        const cameraPermission = //check permissions
+            await ImagePicker.requestCameraPermissionsAsync() //if granted then
         if (cameraPermission.status === 'granted') {
             const capturedImage = await ImagePicker.launchCameraAsync({
                 allowsEditing: true, //allow editor screen to pop up

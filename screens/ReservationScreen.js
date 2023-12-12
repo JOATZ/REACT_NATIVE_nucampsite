@@ -12,6 +12,7 @@ import { Picker } from '@react-native-picker/picker'
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { Platform } from 'react-native'
 import * as Animatable from 'react-native-animatable'
+import * as Notificaitons from 'expo-notifications'
 
 const ReservationScreen = () => {
     const [campers, setCampers] = useState(1)
@@ -39,7 +40,12 @@ const ReservationScreen = () => {
                 },
                 {
                     text: 'OK',
-                    onPress: () => resetForm()
+                    onPress: () => {
+                        presentLocalNotification(
+                            date.toLocaleDateString('en-US')
+                        )
+                        resetForm()
+                    }
                 }
             ],
             { cancelable: false }
@@ -51,6 +57,35 @@ const ReservationScreen = () => {
         setHikeIn(false)
         setDate(new Date())
         setShowCalendar(false)
+    }
+    //ES8 Syntax
+    const presentLocalNotification = async (reservationDate) => {
+        const sendNotification = () => {
+            //override to show when in foreground
+            Notificaitons.setNotificationHandler({
+                handleNotification: async () => ({
+                    shouldShowAlert: true,
+                    shouldPlaySound: true,
+                    shouldSetBadge: true
+                })
+            })
+
+            Notificaitons.scheduleNotificationAsync({
+                content: {
+                    title: 'Your Campsite Reservation Search',
+                    body: `Search for ${reservationDate} requested`
+                },
+                trigger: null //trigger immediately
+            })
+        }
+        //check permissions, await can only be used inside async function
+        let permissions = await Notificaitons.getPermissionsAsync()
+        if (!permissions.granted) {
+            permissions = await Notificaitons.requestPermissionsAsync()
+        }
+        if (permissions.granted) {
+            sendNotification()
+        }
     }
 
     return (

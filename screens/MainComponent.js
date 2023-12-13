@@ -239,7 +239,19 @@ const Main = () => {
     }, [dispatch])
 
     useEffect(() => {
-        NetInfo.fetch().then((connectionInfo) => {
+        //listen for network changes
+        showNetInfo()
+        const unsubscribeNetInfo = NetInfo.addEventListener(
+            (connectionInfo) => {
+                handleConnectivityChange(connectionInfo)
+            }
+        )
+
+        return unsubscribeNetInfo
+    }, [])
+
+    const showNetInfo = async () => {
+        await NetInfo.fetch().then((connectionInfo) => {
             Platform.OS === 'ios'
                 ? Alert.alert(
                       'Intial network Connectivity Type: ' + connectionInfo.type
@@ -251,15 +263,7 @@ const Main = () => {
                       ToastAndroid.LONG
                   )
         })
-        //listen for network changes
-        const unsubscribeNetInfo = NetInfo.addEventListener(
-            (connectionInfo) => {
-                handleConnectivityChange(connectionInfo)
-            }
-        )
-
-        return unsubscribeNetInfo
-    }, [])
+    }
 
     const handleConnectivityChange = (connectionInfo) => {
         let connectionMsg = 'You are now connected to an active netwrok.'

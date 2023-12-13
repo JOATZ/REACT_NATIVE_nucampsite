@@ -6,6 +6,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import * as ImagePicker from 'expo-image-picker'
 import { baseUrl } from '../shared/baseUrl'
 import logo from '../assets/images/logo.png'
+import * as ImageManipulator from 'expo-image-manipulator'
+import * as MediaLibrary from 'expo-media-library' //for camera roll save
 
 const LoginTab = ({ navigation }) => {
     const [username, setUsername] = useState('')
@@ -148,8 +150,40 @@ const RegisterTab = () => {
             })
             //if image captured "not cancleled"
             if (capturedImage.assets) {
+                const processedImage = await processImage(
+                    capturedImage.assets[0].uri
+                )
+                setImageUrl(processedImage.uri)
+                await MediaLibrary.saveToLibraryAsync(processImage.uri)
+            }
+        }
+    }
+
+    const processImage = async (imgUri) => {
+        const processedImage = await ImageManipulator.manipulateAsync(
+            imgUri,
+            [{ resize: { width: 400 } }],
+            { compress: 1, format: ImageManipulator.SaveFormat.PNG }
+        )
+        console.log(processedImage)
+        setImageUrl(processedImage.uri)
+        return processedImage
+    }
+
+    const getImageFromGallery = async () => {
+        const mediaLibraryPermissions =
+            await ImagePicker.requestMediaLibraryPermissionsAsync()
+        if (mediaLibraryPermissions.status === 'granted') {
+            const capturedImage = await ImagePicker.launchImageLibraryAsync({
+                allowsEditing: true,
+                aspect: [1, 1]
+            })
+            if (capturedImage.assets) {
                 console.log(capturedImage.assets[0])
-                setImageUrl(capturedImage.assets[0].uri)
+                const processedImage = await processImage(
+                    capturedImage.assets[0].uri
+                )
+                setImageUrl(processedImage.uri)
             }
         }
     }
@@ -164,6 +198,7 @@ const RegisterTab = () => {
                         style={styles.image}
                     />
                     <Button title='Camera' onPress={getImageFromCamera} />
+                    <Button title='Gallery' onPress={getImageFromGallery} />
                 </View>
                 <Input
                     placeholder='Username'

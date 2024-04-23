@@ -38,8 +38,8 @@ npm start
 
 ## Contributing
 
-Contributions are welcome! Please read the contribution guidelines first.
+This project is currently not open for contributions and is simply here for educational purposes.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project showcases my work as part of a bootcamp curriculum. It is intended for display and educational purposes. Any sharing, distribution, or modification of the content requires explicit permission from the copyright holders.
